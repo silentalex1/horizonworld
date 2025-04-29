@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon World Browser</title>
+    <link rel="stylesheet" href="/css/browser.css">
+</head>
+<body>
+    <div class="browser-container">
+        <div class="sidebar">
+            <div class="user-info">
+                <span id="browserUser"></span>
+            </div>
+            <button class="sidebar-btn active">Arcade</button>
+            <button class="sidebar-btn">Changelogs</button>
+            <button class="sidebar-btn">Settings</button>
+        </div>
+        <div class="main-content">
+            <div class="url-bar">
+                <span>chrome-extension://bpmcpldpdmajfigpchkicefoigmkfalc/views/app.html</span>
+            </div>
+            <div class="content" id="browserContent">
+                <h2>Latest Arcade Releases</h2>
+                <p>Play our first game, "Star Racer", now available in the arcade!</p>
+            </div>
+        </div>
+    </div>
+    <div class="permission-modal" id="permissionModal">
+        <div class="modal-content">
+            <h3>Grant Browser Full Permission?</h3>
+            <p>This will allow features like managing Chrome extensions in settings.</p>
+            <button class="grant-btn">Grant</button>
+            <button class="deny-btn">Deny</button>
+        </div>
+    </div>
+    <script src="/js/backend.js"></script>
+    <script src="/js/browser.js"></script>
+</body>
+</html>

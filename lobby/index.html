@@ -1,1 +1,45 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Horizon World Lobby">
+    <title>Horizon World - Lobby</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Horizon World</h1>
+            <div class="user-info">
+                <span id="welcomeUser"></span>
+                <button onclick="signOut()">Sign Out</button>
+            </div>
+        </header>
+        <main>
+            <section class="news">
+                <h2>What's New</h2>
+                <div class="news-item">
+                    <h3>Play More Games!</h3>
+                    <p>We've just made it so you're able to play other games.</p>
+                </div>
+                <div class="news-item updates">
+                    <h3>Updates</h3>
+                    <p>{1} - Added "Get Started" button to website.</p>
+                    <p>{2} - Added a feature where other Chrome extensions can't close the external browser.</p>
+                    <p>{3} - Added our first game into the external browser.</p>
+                    <p>{4} - Made it so in settings, you'll be able to view other Chrome extensions on the browser and uninstall them directly from the external browser, just grant full permission when prompted.</p>
+                </div>
+                <div class="news-item fixes">
+                    <h3>Fixes</h3>
+                    <p>Made it so you're able to see the "Get Started" button on the main website.</p>
+                </div>
+            </section>
+            <button class="start-btn" onclick="window.open('/browser.html', '_blank', 'width=1000,height=800')">Get Started</button>
+        </main>
+    </div>
+    <script src="/js/backend.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>

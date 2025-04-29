@@ -1,34 +1,56 @@
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.pathname.includes('lobby.html')) {
-        const user = localStorage.getItem('username');
-        if (!user) {
-            window.location.href = '/index.html';
-            return;
-        }
-        document.getElementById('welcomeUser').textContent = `Welcome, ${user}!`;
-        gsap.from('header h1', { duration: 1.3, y: -70, opacity: 0, ease: 'power3.out' });
-        gsap.from('.user-info', { duration: 1.3, x: 50, opacity: 0, ease: 'power3.out', delay: 0.3 });
-        gsap.from('.news-item', { duration: 1.2, y: 70, opacity: 0, stagger: 0.4, ease: 'power3.out', delay: 0.7 });
-        gsap.from('.start-btn', { duration: 1.3, scale: 0, ease: 'elastic.out(1, 0.5)', delay: 1.5 });
-    } else {
-        gsap.from('.auth-container h1', { duration: 1.3, y: -50, opacity: 0, ease: 'power3.out' });
-        gsap.from('.auth-form', { duration: 1.3, y: 50, opacity: 0, ease: 'power3.out', delay: 0.5 });
+    const user = localStorage.getItem('username');
+    if (!user) {
+        alert('Please sign in from the main website.');
+        window.close();
+        return;
     }
+    document.getElementById('browserUser').textContent = `Signed in as ${user}`;
+    
+    const modal = document.getElementById('permissionModal');
+    const grantBtn = document.querySelector('.grant-btn');
+    const denyBtn = document.querySelector('.deny-btn');
+    const sidebarBtns = document.querySelectorAll('.sidebar-btn');
+    const content = document.getElementById('browserContent');
+
+    grantBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        localStorage.setItem('permission', 'granted');
+        window.onbeforeunload = null;
+    });
+
+    denyBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        localStorage.setItem('permission', 'denied');
+    });
+
+    if (localStorage.getItem('permission')) {
+        modal.style.display = 'none';
+        if (localStorage.getItem('permission') === 'granted') {
+            window.onbeforeunload = null;
+        }
+    }
+
+    sidebarBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            sidebarBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (btn.textContent === 'Arcade') {
+                content.innerHTML = '<h2>Latest Arcade Releases</h2><p>Play our first game, "Star Racer", now available in the arcade!</p>';
+            } else if (btn.textContent === 'Changelogs') {
+                content.innerHTML = '<h2>Changelogs</h2><p>Version 1.2: Added new arcade games and fixed bugs in "Pixel Quest".</p>';
+            } else if (btn.textContent === 'Settings') {
+                if (localStorage.getItem('permission') === 'granted') {
+                    content.innerHTML = '<h2>Settings</h2><p>Manage Chrome extensions here.</p><ul><li>Extension 1 <button onclick="uninstallExtension(\'Extension 1\')">Uninstall</button></li><li>Extension 2 <button onclick="uninstallExtension(\'Extension 2\')">Uninstall</button></li></ul>';
+                } else {
+                    content.innerHTML = '<h2>Settings</h2><p>Please grant full permission to manage Chrome extensions.</p>';
+                }
+            }
+        });
+    });
 });
 
-function signIn() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    if (username && password) {
-        saveUser(username, password);
-        window.location.href = '/lobby.html';
-    } else {
-        alert('Please enter both username and password.');
-    }
-}
-
-function signOut() {
-    localStorage.removeItem('username');
-    localStorage.removeItem('password');
-    window.location.href = '/index.html';
+function uninstallExtension(name) {
+    alert(`${name} has been uninstalled.`);
 }

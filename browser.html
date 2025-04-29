@@ -24,6 +24,26 @@
             color: #0a0a0a;
         }
 
+        .paused-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .paused-overlay h2 {
+            font-size: 2rem;
+            color: #ff4d4d;
+            text-shadow: 0 2px 8px rgba(255, 77, 77, 0.4);
+        }
+
         .browser-container {
             display: flex;
             height: 100vh;
@@ -499,6 +519,7 @@
             const denyBtn = document.querySelector('.deny-btn');
             const sidebarBtns = document.querySelectorAll('.sidebar-btn');
             const content = document.getElementById('browserContent');
+            const pausedOverlay = document.getElementById('pausedOverlay');
 
             const games = [
                 { name: 'Star Racer', description: 'Speed through the galaxy in this thrilling racing game!', preview: 'Preview' },
@@ -563,6 +584,7 @@
 
             sidebarBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
+                    if (localStorage.getItem('browserPaused') === 'true') return;
                     if (rateLimit()) {
                         sidebarBtns.forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
@@ -605,15 +627,40 @@
             });
 
             document.querySelector('.refresh-btn').addEventListener('click', () => {
+                if (localStorage.getItem('browserPaused') === 'true') return;
                 if (rateLimit()) {
                     renderGames();
                 } else {
                     alert('Too many requests. Please try again later.');
                 }
             });
+
+            window.addEventListener('storage', (event) => {
+                if (event.key === 'browserPaused') {
+                    if (event.newValue === 'true') {
+                        pausedOverlay.style.display = 'flex';
+                        document.querySelectorAll('button').forEach(btn => {
+                            btn.disabled = true;
+                        });
+                    } else {
+                        pausedOverlay.style.display = 'none';
+                        document.querySelectorAll('button').forEach(btn => {
+                            btn.disabled = false;
+                        });
+                    }
+                }
+            });
+
+            if (localStorage.getItem('browserPaused') === 'true') {
+                pausedOverlay.style.display = 'flex';
+                document.querySelectorAll('button').forEach(btn => {
+                    btn.disabled = true;
+                });
+            }
         });
 
         function launchGame(name) {
+            if (localStorage.getItem('browserPaused') === 'true') return;
             if (rateLimit()) {
                 alert(`Launching ${name}...`);
             } else {
@@ -622,6 +669,7 @@
         }
 
         function uninstallExtension(name) {
+            if (localStorage.getItem('browserPaused') === 'true') return;
             if (rateLimit()) {
                 alert(`${name} has been uninstalled.`);
             } else {
@@ -648,6 +696,9 @@
     </script>
 </head>
 <body>
+    <div class="paused-overlay" id="pausedOverlay">
+        <h2>Browser Paused by Admin</h2>
+    </div>
     <div class="browser-container">
         <div class="sidebar">
             <div class="user-info">

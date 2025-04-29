@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horizon World Browser</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
+            margin: 0;
             font-family: 'Inter', sans-serif;
             background: #0a0a0a;
             color: #f5f5f5;
@@ -22,26 +20,6 @@
         body.light-mode {
             background: #f5f5f5;
             color: #0a0a0a;
-        }
-
-        .paused-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            display: none;
-        }
-
-        .paused-overlay h2 {
-            font-size: 2rem;
-            color: #ff4d4d;
-            text-shadow: 0 2px 8px rgba(255, 77, 77, 0.4);
         }
 
         .browser-container {
@@ -119,9 +97,6 @@
             border-radius: 10px;
             margin-bottom: 2rem;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .light-mode .url-bar {
@@ -132,37 +107,10 @@
         .url-bar span {
             color: #b0b0b0;
             font-size: 0.9rem;
-            flex: 1;
         }
 
         .light-mode .url-bar span {
             color: #666666;
-        }
-
-        .refresh-btn {
-            background: #404040;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .light-mode .refresh-btn {
-            background: #b0b0b0;
-        }
-
-        .refresh-btn:hover {
-            background: #606060;
-        }
-
-        .light-mode .refresh-btn:hover {
-            background: #909090;
-        }
-
-        .refresh-btn svg {
-            width: 16px;
-            height: 16px;
         }
 
         .content h2 {
@@ -172,41 +120,9 @@
             margin-bottom: 1.2rem;
         }
 
-        .search-bar {
-            margin-bottom: 1.5rem;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 0.8rem;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #f5f5f5;
-            font-size: 1rem;
-            outline: none;
-            transition: background 0.3s ease;
-        }
-
-        .light-mode .search-bar input {
-            background: rgba(0, 0, 0, 0.1);
-            color: #0a0a0a;
-        }
-
-        .search-bar input::placeholder {
-            color: #b0b0b0;
-        }
-
-        .light-mode .search-bar input::placeholder {
-            color: #666666;
-        }
-
-        .search-bar input:focus {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .light-mode .search-bar input:focus {
-            background: rgba(0, 0, 0, 0.2);
+        .content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
 
         .game-card {
@@ -215,9 +131,6 @@
             border-radius: 10px;
             margin-bottom: 1rem;
             transition: transform 0.3s ease;
-            display: flex;
-            gap: 1rem;
-            align-items: center;
         }
 
         .light-mode .game-card {
@@ -228,38 +141,17 @@
             transform: scale(1.02);
         }
 
-        .game-preview {
-            width: 100px;
-            height: 60px;
-            background: #404040;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: #b0b0b0;
-        }
-
-        .light-mode .game-preview {
-            background: #d0d0d0;
-            color: #666666;
-        }
-
-        .game-info {
-            flex: 1;
-        }
-
-        .game-info h3 {
+        .game-card h3 {
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
 
-        .game-info p {
+        .game-card p {
             font-size: 0.9rem;
             color: #b0b0b0;
         }
 
-        .light-mode .game-info p {
+        .light-mode .game-card p {
             color: #666666;
         }
 
@@ -276,11 +168,6 @@
 
         .game-card button:hover {
             background: #eab308;
-        }
-
-        .content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
         }
 
         .content ul {
@@ -465,18 +352,16 @@
                 font-size: 1.5rem;
             }
 
-            .game-card {
-                flex-direction: column;
-                align-items: flex-start;
+            .content p {
+                font-size: 1rem;
             }
 
-            .game-preview {
-                width: 100%;
-                height: 80px;
+            .game-card h3 {
+                font-size: 1.2rem;
             }
 
-            .game-card button {
-                align-self: flex-end;
+            .game-card p {
+                font-size: 0.85rem;
             }
         }
 
@@ -519,40 +404,6 @@
             const denyBtn = document.querySelector('.deny-btn');
             const sidebarBtns = document.querySelectorAll('.sidebar-btn');
             const content = document.getElementById('browserContent');
-            const pausedOverlay = document.getElementById('pausedOverlay');
-
-            const games = [
-                { name: 'Star Racer', description: 'Speed through the galaxy in this thrilling racing game!', preview: 'Preview' },
-                { name: 'Pixel Quest', description: 'Explore a retro world in this action-packed adventure.', preview: 'Preview' },
-                { name: 'Astro Clash', description: 'Battle in space with this exciting shooter game.', preview: 'Preview' }
-            ];
-
-            function renderGames(searchTerm = '') {
-                const filteredGames = games.filter(game => 
-                    game.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    game.description.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-                const gameCards = filteredGames.map(game => `
-                    <div class="game-card">
-                        <div class="game-preview">${game.preview}</div>
-                        <div class="game-info">
-                            <h3>${game.name}</h3>
-                            <p>${game.description}</p>
-                        </div>
-                        <button onclick="launchGame('${game.name}')">Play Now</button>
-                    </div>
-                `).join('');
-                content.innerHTML = `
-                    <h2>Latest Arcade Releases</h2>
-                    <div class="search-bar">
-                        <input type="text" id="gameSearch" placeholder="Search games...">
-                    </div>
-                    ${gameCards}
-                `;
-                document.getElementById('gameSearch').addEventListener('input', (e) => {
-                    renderGames(e.target.value);
-                });
-            }
 
             if (localStorage.getItem('theme') === 'light') {
                 document.body.classList.add('light-mode');
@@ -584,13 +435,24 @@
 
             sidebarBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    if (localStorage.getItem('browserPaused') === 'true') return;
                     if (rateLimit()) {
                         sidebarBtns.forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
 
                         if (btn.textContent === 'Arcade') {
-                            renderGames();
+                            content.innerHTML = `
+                                <h2>Latest Arcade Releases</h2>
+                                <div class="game-card">
+                                    <h3>Star Racer</h3>
+                                    <p>Speed through the galaxy in this thrilling racing game!</p>
+                                    <button onclick="alert('Launching Star Racer...')">Play Now</button>
+                                </div>
+                                <div class="game-card">
+                                    <h3>Pixel Quest</h3>
+                                    <p>Explore a retro world in this action-packed adventure.</p>
+                                    <button onclick="alert('Launching Pixel Quest...')">Play Now</button>
+                                </div>
+                            `;
                         } else if (btn.textContent === 'Changelogs') {
                             content.innerHTML = '<h2>Changelogs</h2><p>Version 1.2: Added new arcade games and fixed bugs in "Pixel Quest".</p>';
                         } else if (btn.textContent === 'Settings') {
@@ -625,51 +487,9 @@
                     }
                 });
             });
-
-            document.querySelector('.refresh-btn').addEventListener('click', () => {
-                if (localStorage.getItem('browserPaused') === 'true') return;
-                if (rateLimit()) {
-                    renderGames();
-                } else {
-                    alert('Too many requests. Please try again later.');
-                }
-            });
-
-            window.addEventListener('storage', (event) => {
-                if (event.key === 'browserPaused') {
-                    if (event.newValue === 'true') {
-                        pausedOverlay.style.display = 'flex';
-                        document.querySelectorAll('button').forEach(btn => {
-                            btn.disabled = true;
-                        });
-                    } else {
-                        pausedOverlay.style.display = 'none';
-                        document.querySelectorAll('button').forEach(btn => {
-                            btn.disabled = false;
-                        });
-                    }
-                }
-            });
-
-            if (localStorage.getItem('browserPaused') === 'true') {
-                pausedOverlay.style.display = 'flex';
-                document.querySelectorAll('button').forEach(btn => {
-                    btn.disabled = true;
-                });
-            }
         });
 
-        function launchGame(name) {
-            if (localStorage.getItem('browserPaused') === 'true') return;
-            if (rateLimit()) {
-                alert(`Launching ${name}...`);
-            } else {
-                alert('Too many requests. Please try again later.');
-            }
-        }
-
         function uninstallExtension(name) {
-            if (localStorage.getItem('browserPaused') === 'true') return;
             if (rateLimit()) {
                 alert(`${name} has been uninstalled.`);
             } else {
@@ -696,9 +516,6 @@
     </script>
 </head>
 <body>
-    <div class="paused-overlay" id="pausedOverlay">
-        <h2>Browser Paused by Admin</h2>
-    </div>
     <div class="browser-container">
         <div class="sidebar">
             <div class="user-info">
@@ -711,42 +528,18 @@
         <div class="main-content">
             <div class="url-bar">
                 <span>chrome-extension://bpmcpldpdmajfigpchkicefoigmkfalc/views/app.html</span>
-                <button class="refresh-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M23 4v6h-6"></path>
-                        <path d="M1 20v-6h6"></path>
-                        <path d="M3.51 9a9 9 0 0114.85-3.36L23 4M1 20l4.64-1.36A9 9 0 0020.49 15"></path>
-                    </svg>
-                </button>
             </div>
             <div class="content" id="browserContent">
                 <h2>Latest Arcade Releases</h2>
-                <div class="search-bar">
-                    <input type="text" id="gameSearch" placeholder="Search games...">
+                <div class="game-card">
+                    <h3>Star Racer</h3>
+                    <p>Speed through the galaxy in this thrilling racing game!</p>
+                    <button onclick="alert('Launching Star Racer...')">Play Now</button>
                 </div>
                 <div class="game-card">
-                    <div class="game-preview">Preview</div>
-                    <div class="game-info">
-                        <h3>Star Racer</h3>
-                        <p>Speed through the galaxy in this thrilling racing game!</p>
-                    </div>
-                    <button onclick="launchGame('Star Racer')">Play Now</button>
-                </div>
-                <div class="game-card">
-                    <div class="game-preview">Preview</div>
-                    <div class="game-info">
-                        <h3>Pixel Quest</h3>
-                        <p>Explore a retro world in this action-packed adventure.</p>
-                    </div>
-                    <button onclick="launchGame('Pixel Quest')">Play Now</button>
-                </div>
-                <div class="game-card">
-                    <div class="game-preview">Preview</div>
-                    <div class="game-info">
-                        <h3>Astro Clash</h3>
-                        <p>Battle in space with this exciting shooter game.</p>
-                    </div>
-                    <button onclick="launchGame('Astro Clash')">Play Now</button>
+                    <h3>Pixel Quest</h3>
+                    <p>Explore a retro world in this action-packed adventure.</p>
+                    <button onclick="alert('Launching Pixel Quest...')">Play Now</button>
                 </div>
             </div>
         </div>

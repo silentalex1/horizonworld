@@ -28,6 +28,11 @@
             padding: 2rem;
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .login-container:hover, .admin-panel:hover {
+            transform: translateY(-5px);
         }
 
         .login-container h2, .admin-panel h2 {
@@ -36,6 +41,7 @@
             color: #facc15;
             margin-bottom: 1.5rem;
             text-align: center;
+            text-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
         }
 
         .login-form {
@@ -52,10 +58,16 @@
             color: #f5f5f5;
             font-size: 1rem;
             outline: none;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
 
         .login-form input::placeholder {
             color: #b0b0b0;
+        }
+
+        .login-form input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
         }
 
         .login-form button {
@@ -68,10 +80,13 @@
             font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
         }
 
         .login-form button:hover {
             background: #eab308;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(250, 204, 21, 0.5);
         }
 
         .admin-panel {
@@ -87,9 +102,10 @@
             font-weight: 600;
             color: #00d4ff;
             margin-bottom: 1rem;
+            text-shadow: 0 1px 4px rgba(0, 212, 255, 0.3);
         }
 
-        .user-list, .stats {
+        .user-list, .stats, .code-control {
             background: rgba(255, 255, 255, 0.05);
             padding: 1rem;
             border-radius: 10px;
@@ -103,11 +119,92 @@
         .user-list li {
             padding: 0.5rem 0;
             font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .user-list li:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .promote-btn {
+            background: #00d4ff;
+            color: #fff;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .promote-btn:hover {
+            background: #00a3ff;
+            transform: translateY(-2px);
+        }
+
+        .promote-btn.disabled {
+            background: #404040;
+            cursor: not-allowed;
         }
 
         .stats p {
             font-size: 1rem;
             margin-bottom: 0.5rem;
+        }
+
+        .code-control {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .code-control input {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #f5f5f5;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .code-control input::placeholder {
+            color: #b0b0b0;
+        }
+
+        .code-control .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .code-control button {
+            flex: 1;
+            background: #facc15;
+            color: #0a1a4f;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .code-control button:hover {
+            background: #eab308;
+            transform: translateY(-2px);
+        }
+
+        .code-control .disable-btn.active {
+            background: #ff4d4d;
+        }
+
+        .code-control .disable-btn.active:hover {
+            background: #ff1a1a;
         }
 
         .control-btn {
@@ -120,18 +217,23 @@
             font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);
         }
 
         .control-btn.active {
             background: #00d4ff;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
         }
 
         .control-btn:hover {
             background: #ff1a1a;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 77, 77, 0.5);
         }
 
         .control-btn.active:hover {
             background: #00a3ff;
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
         }
 
         @media (max-width: 480px) {
@@ -151,6 +253,10 @@
                 padding: 0.6rem 1rem;
                 font-size: 0.9rem;
             }
+
+            .code-control .btn-group {
+                flex-direction: column;
+            }
         }
     </style>
     <script>
@@ -162,6 +268,9 @@
             const userList = document.getElementById('userList');
             const activeUsers = document.getElementById('activeUsers');
             const pauseBtn = document.getElementById('pauseBtn');
+            const codeInputField = document.getElementById('newCode');
+            const updateCodeBtn = document.getElementById('updateCodeBtn');
+            const disableCodeBtn = document.getElementById('disableCodeBtn');
 
             loginBtn.addEventListener('click', () => {
                 const code = codeInput.value;
@@ -177,7 +286,17 @@
 
             function loadAdminData() {
                 const users = JSON.parse(localStorage.getItem('users')) || [];
-                userList.innerHTML = users.map(user => `<li>${user}</li>`).join('');
+                const admins = JSON.parse(localStorage.getItem('admins')) || [String.fromCharCode(114, 101, 97, 108, 97, 108, 101, 120)];
+                userList.innerHTML = users.map(user => `
+                    <li>
+                        ${user}
+                        <button class="promote-btn ${admins.includes(user) ? 'disabled' : ''}" 
+                                onclick="promoteUser('${user}')" 
+                                ${admins.includes(user) ? 'disabled' : ''}>
+                            ${admins.includes(user) ? 'Admin' : 'Promote to Admin'}
+                        </button>
+                    </li>
+                `).join('');
                 updateStats();
 
                 setInterval(updateStats, 5000);
@@ -189,6 +308,15 @@
                 activeUsers.textContent = `Active Users: ${users.length}`;
                 document.getElementById('browserStatus').textContent = `External Browser: ${browserOpen ? 'Active' : 'Inactive'}`;
             }
+
+            window.promoteUser = function(user) {
+                let admins = JSON.parse(localStorage.getItem('admins')) || [String.fromCharCode(114, 101, 97, 108, 97, 108, 101, 120)];
+                if (!admins.includes(user)) {
+                    admins.push(user);
+                    localStorage.setItem('admins', JSON.stringify(admins));
+                    loadAdminData();
+                }
+            };
 
             pauseBtn.addEventListener('click', () => {
                 const isPaused = localStorage.getItem('browserPaused') === 'true';
@@ -203,9 +331,38 @@
                 }
             });
 
+            updateCodeBtn.addEventListener('click', () => {
+                const newCode = codeInputField.value;
+                if (newCode) {
+                    localStorage.setItem('entryCode', newCode);
+                    alert('Entry code updated successfully.');
+                    codeInputField.value = '';
+                } else {
+                    alert('Please enter a new code.');
+                }
+            });
+
+            disableCodeBtn.addEventListener('click', () => {
+                const isDisabled = localStorage.getItem('codeDisabled') === 'true';
+                if (isDisabled) {
+                    localStorage.setItem('codeDisabled', 'false');
+                    disableCodeBtn.textContent = 'Disable Code';
+                    disableCodeBtn.classList.remove('active');
+                } else {
+                    localStorage.setItem('codeDisabled', 'true');
+                    disableCodeBtn.textContent = 'Enable Code';
+                    disableCodeBtn.classList.add('active');
+                }
+            });
+
             if (localStorage.getItem('browserPaused') === 'true') {
                 pauseBtn.textContent = 'Resume Browser';
                 pauseBtn.classList.add('active');
+            }
+
+            if (localStorage.getItem('codeDisabled') === 'true') {
+                disableCodeBtn.textContent = 'Enable Code';
+                disableCodeBtn.classList.add('active');
             }
         });
     </script>
@@ -231,6 +388,16 @@
             <div class="stats">
                 <p id="activeUsers">Active Users: 0</p>
                 <p id="browserStatus">External Browser: Inactive</p>
+            </div>
+        </div>
+        <div class="section">
+            <h3>Entry Code Control</h3>
+            <div class="code-control">
+                <input type="text" id="newCode" placeholder="New Entry Code">
+                <div class="btn-group">
+                    <button id="updateCodeBtn">Update Code</button>
+                    <button id="disableCodeBtn" class="disable-btn">Disable Code</button>
+                </div>
             </div>
         </div>
         <div class="section">

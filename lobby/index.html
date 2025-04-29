@@ -5,10 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Horizon World Lobby">
     <title>Horizon World - Lobby</title>
-    <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="/js/backend.js"></script>
-    <script src="/js/script.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #0a1a4f, #112568);
+            color: #f5f5f5;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 4rem 2.5rem;
+            text-align: center;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            color: #facc15;
+            text-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-info span {
+            font-size: 1.4rem;
+            font-weight: 500;
+        }
+
+        .user-info button {
+            background: #ff4d4d;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .user-info button:hover {
+            background: #ff1a1a;
+        }
+
+        .news {
+            margin: 4rem 0;
+        }
+
+        .news h2 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #00d4ff;
+            margin-bottom: 3rem;
+        }
+
+        .news-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3rem;
+            border-radius: 30px;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(15px);
+            transition: transform 0.3s ease;
+        }
+
+        .news-item:hover {
+            transform: translateY(-12px);
+        }
+
+        .news-item h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #facc15;
+            margin-bottom: 1.5rem;
+        }
+
+        .news-item p {
+            font-size: 1.4rem;
+            font-weight: 300;
+        }
+
+        .start-btn {
+            background: #facc15;
+            color: #0a1a4f;
+            border: none;
+            padding: 1.8rem 6rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+            border-radius: 70px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .start-btn:hover {
+            background: #eab308;
+            transform: scale(1.12);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            header h1 {
+                font-size: 4rem;
+            }
+
+            .news h2 {
+                font-size: 2.8rem;
+            }
+
+            .news-item h3 {
+                font-size: 1.9rem;
+            }
+
+            .news-item p {
+                font-size: 1.2rem;
+            }
+
+            .start-btn {
+                padding: 1.5rem 5rem;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 3rem;
+            }
+
+            .news h2 {
+                font-size: 2.2rem;
+            }
+
+            .news-item {
+                padding: 2rem;
+            }
+
+            .start-btn {
+                padding: 1.2rem 4rem;
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = localStorage.getItem('username');
+            if (!user) {
+                window.location.href = '/index.html';
+                return;
+            }
+            document.getElementById('welcomeUser').textContent = `Welcome, ${user}!`;
+            gsap.from('header h1', { duration: 1.5, y: -90, opacity: 0, ease: 'power4.out' });
+            gsap.from('.user-info', { duration: 1.5, x: 70, opacity: 0, ease: 'power4.out', delay: 0.5 });
+            gsap.from('.news-item', { duration: 1.4, y: 90, opacity: 0, stagger: 0.5, ease: 'power4.out', delay: 0.9 });
+            gsap.from('.start-btn', { duration: 1.5, scale: 0, ease: 'elastic.out(1, 0.3)', delay: 1.7 });
+            document.querySelector('.start-btn').addEventListener('click', () => {
+                window.open('/browser.html', '_blank', 'width=1200,height=1000');
+            });
+            document.getElementById('signOutBtn').addEventListener('click', () => {
+                localStorage.removeItem('username');
+                localStorage.removeItem('password');
+                window.location.href = '/index.html';
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">

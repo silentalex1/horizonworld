@@ -64,6 +64,13 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4); }
+            50% { box-shadow: 0 6px 20px rgba(250, 204, 21, 0.6); }
+            100% { box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4); }
         }
 
         .logo-icon::before {
@@ -83,6 +90,9 @@
             color: #facc15;
             text-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
             letter-spacing: -0.5px;
+            background: linear-gradient(90deg, #facc15, #ff9500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .user-info {
@@ -107,6 +117,11 @@
             font-weight: 600;
             color: #fff;
             box-shadow: 0 2px 8px rgba(0, 212, 255, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: rotate(360deg);
         }
 
         .user-info span {
@@ -164,6 +179,11 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .news:hover {
+            transform: translateY(-5px);
         }
 
         .news h2 {
@@ -260,11 +280,12 @@
             padding: 0.8rem;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.05);
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
 
         .changelog-item:hover {
             background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
         .changelog-number {
@@ -307,11 +328,12 @@
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.05);
             margin-bottom: 0.8rem;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
 
         .fix-item:hover {
             background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
         }
 
         .fix-icon {
@@ -346,15 +368,12 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .action-card:hover {
             transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
         }
 
         .glow-icon {
@@ -365,9 +384,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
+            margin: 0 auto 1.5rem;
             position: relative;
             box-shadow: 0 10px 25px rgba(250, 204, 21, 0.4);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 10px 25px rgba(250, 204, 21, 0.4); }
+            100% { box-shadow: 0 15px 35px rgba(250, 204, 21, 0.6); }
         }
 
         .glow-icon::after {
@@ -406,16 +431,15 @@
             background: linear-gradient(135deg, #facc15, #ff9500);
             color: #0a1a4f;
             border: none;
-            padding: 0.9rem 2.5rem;
+            padding: 0.9rem 2rem;
             font-size: 1.1rem;
             font-weight: 600;
-            border-radius: 40px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 8px 20px rgba(250, 204, 21, 0.4);
             position: relative;
             overflow: hidden;
-            width: 100%;
         }
 
         .start-btn::before {
@@ -445,7 +469,7 @@
             padding: 0.8rem 2rem;
             font-size: 1rem;
             font-weight: 600;
-            border-radius: 40px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
@@ -456,11 +480,6 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-        }
-
-        .get-started-btn svg {
-            width: 20px;
-            height: 20px;
         }
 
         .get-started-btn::before {
@@ -578,7 +597,8 @@
             document.getElementById('userInitial').textContent = user.charAt(0).toUpperCase();
 
             const adminBtn = document.getElementById('adminBtn');
-            if (user === String.fromCharCode(114, 101, 97, 108, 97, 108, 101, 120)) {
+            const admins = JSON.parse(localStorage.getItem('admins')) || [String.fromCharCode(114, 101, 97, 108, 97, 108, 101, 120)];
+            if (admins.includes(user)) {
                 adminBtn.style.display = 'inline-block';
             }
 
@@ -593,9 +613,16 @@
 
             document.querySelectorAll('.start-btn, .get-started-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
+                    if (localStorage.getItem('browserOpen') === 'true') {
+                        alert('An external browser is already open. Please close it to start a new session.');
+                        return;
+                    }
                     const browserWindow = window.open('/browser.html', '_blank', 'width=800,height=600');
                     if (browserWindow) {
                         localStorage.setItem('browserOpen', 'true');
+                        browserWindow.addEventListener('unload', () => {
+                            localStorage.setItem('browserOpen', 'false');
+                        });
                     }
                 });
             });
@@ -624,7 +651,7 @@
             <div class="user-info">
                 <div class="user-avatar" id="userInitial"></div>
                 <span id="welcomeUser"></span>
-                <button id="adminBtn" style="display: none;">Admin</button>
+                <button id="adminBtn" class="admin-btn" style="display: none;">Admin</button>
                 <button id="signOutBtn">Sign Out</button>
             </div>
         </header>
@@ -636,12 +663,7 @@
                 <div class="featured">
                     <h3>Play More Games!</h3>
                     <p>We've just made it so you're able to play other games within our platform. Explore new worlds and adventures with enhanced gameplay options.</p>
-                    <button class="get-started-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-                        Get Started.
-                    </button>
+                    <button class="get-started-btn">Get Started</button>
                 </div>
                 
                 <div class="changelog">

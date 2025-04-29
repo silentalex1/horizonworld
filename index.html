@@ -24,7 +24,7 @@
             background-attachment: fixed;
         }
 
-        .auth-container {
+        .auth-container, .code-container {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -33,6 +33,10 @@
             padding: 2rem;
             background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(15px);
+        }
+
+        .code-container {
+            display: none;
         }
 
         .logo {
@@ -63,14 +67,14 @@
             color: #07133a;
         }
 
-        .auth-container h1 {
+        .auth-container h1, .code-container h1 {
             font-size: 3rem;
             font-weight: 800;
             color: #facc15;
             text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        .auth-form {
+        .auth-form, .code-form {
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
@@ -83,7 +87,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .auth-form input {
+        .auth-form input, .code-form input {
             padding: 1rem;
             border: none;
             border-radius: 8px;
@@ -94,15 +98,15 @@
             transition: background 0.3s ease;
         }
 
-        .auth-form input::placeholder {
+        .auth-form input::placeholder, .code-form input::placeholder {
             color: #b0b0b0;
         }
 
-        .auth-form input:focus {
+        .auth-form input:focus, .code-form input:focus {
             background: rgba(255, 255, 255, 0.25);
         }
 
-        .auth-form button {
+        .auth-form button, .code-form button {
             background: linear-gradient(135deg, #facc15, #ff9500);
             color: #07133a;
             border: none;
@@ -115,17 +119,17 @@
             box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
         }
 
-        .auth-form button:hover {
+        .auth-form button:hover, .code-form button:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(250, 204, 21, 0.5);
         }
 
         @media (max-width: 768px) {
-            .auth-container h1 {
+            .auth-container h1, .code-container h1 {
                 font-size: 2.5rem;
             }
 
-            .auth-form {
+            .auth-form, .code-form {
                 max-width: 350px;
                 padding: 1.5rem;
             }
@@ -141,21 +145,21 @@
                 font-size: 1.5rem;
             }
 
-            .auth-container h1 {
+            .auth-container h1, .code-container h1 {
                 font-size: 2rem;
             }
 
-            .auth-form {
+            .auth-form, .code-form {
                 max-width: 300px;
                 padding: 1.2rem;
             }
 
-            .auth-form input {
+            .auth-form input, .code-form input {
                 padding: 0.8rem;
                 font-size: 0.9rem;
             }
 
-            .auth-form button {
+            .auth-form button, .code-form button {
                 padding: 0.8rem;
                 font-size: 1rem;
             }
@@ -163,6 +167,16 @@
     </style>
 </head>
 <body>
+    <div class="code-container" id="codeContainer">
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <h1>Horizon World</h1>
+        </div>
+        <div class="code-form">
+            <input type="text" id="accessCode" placeholder="Enter Code">
+            <button id="codeBtn">Submit</button>
+        </div>
+    </div>
     <div class="auth-container" id="authContainer">
         <div class="logo">
             <div class="logo-icon"></div>
@@ -175,6 +189,10 @@
         </div>
     </div>
     <script>
+        function getAccessCode() {
+            return String.fromCharCode(104, 111, 114, 105, 122, 111, 110, 116, 104, 101, 98, 101, 115, 116);
+        }
+
         function saveUser(username, password) {
             let users = JSON.parse(localStorage.getItem('users')) || [];
             if (users.includes(username)) {
@@ -211,8 +229,33 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            const codeContainer = document.getElementById('codeContainer');
+            const authContainer = document.getElementById('authContainer');
+            const codeBtn = document.getElementById('codeBtn');
+            const accessCodeInput = document.getElementById('accessCode');
+
+            if (localStorage.getItem('codeEnabled') !== 'false') {
+                codeContainer.style.display = 'flex';
+                authContainer.style.display = 'none';
+            } else {
+                codeContainer.style.display = 'none';
+                authContainer.style.display = 'flex';
+            }
+
             gsap.from('.logo', { duration: 1.5, y: -60, opacity: 0, ease: 'power4.out' });
-            gsap.from('.auth-form', { duration: 1.5, y: 60, opacity: 0, ease: 'power4.out', delay: 0.7 });
+            gsap.from('.auth-form, .code-form', { duration: 1.5, y: 60, opacity: 0, ease: 'power4.out', delay: 0.7 });
+
+            codeBtn.addEventListener('click', () => {
+                const enteredCode = accessCodeInput.value;
+                const customCode = localStorage.getItem('customAccessCode');
+                const requiredCode = customCode || getAccessCode();
+                if (enteredCode === requiredCode) {
+                    codeContainer.style.display = 'none';
+                    authContainer.style.display = 'flex';
+                } else {
+                    alert('Invalid code. Please try again.');
+                }
+            });
 
             document.getElementById('signInBtn').addEventListener('click', () => {
                 const username = document.getElementById('username').value;

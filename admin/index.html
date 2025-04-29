@@ -427,6 +427,7 @@
                 if (!bannedUsers.includes(user)) {
                     bannedUsers.push(user);
                     localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
+                    localStorage.setItem('bannedUsersUpdate', Date.now().toString());
                     loadAdminData();
                     if (user === localStorage.getItem('username')) {
                         window.location.href = '/ban';
@@ -440,18 +441,12 @@
                     localStorage.setItem('browserPaused', 'false');
                     pauseBtn.textContent = 'Pause Browser';
                     pauseBtn.classList.remove('active');
-                    broadcastPauseState(false);
                 } else {
                     localStorage.setItem('browserPaused', 'true');
                     pauseBtn.textContent = 'Resume Browser';
                     pauseBtn.classList.add('active');
-                    broadcastPauseState(true);
                 }
             });
-
-            function broadcastPauseState(isPaused) {
-                localStorage.setItem('browserPauseState', JSON.stringify({ paused: isPaused, timestamp: Date.now() }));
-            }
 
             updateCodeBtn.addEventListener('click', () => {
                 const newCode = codeInputField.value;

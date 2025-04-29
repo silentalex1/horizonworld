@@ -1,1 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Horizon World - Banned">
+    <title>Horizon World - Banned</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #3a0707, #5f0f0f);
+            color: #f5f5f5;
+            overflow: hidden;
+            line-height: 1.7;
+            min-height: 100vh;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 77, 77, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .ban-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(15px);
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+            border-radius: 15px;
+            margin-right: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4); }
+            50% { box-shadow: 0 6px 20px rgba(255, 77, 77, 0.6); }
+            100% { box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4); }
+        }
+
+        .logo-icon::before {
+            content: 'H';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 2rem;
+            color: #3a0707;
+        }
+
+        .ban-container h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ff4d4d;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(90deg, #ff4d4d, #ff1a1a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glowText 2s infinite alternate;
+        }
+
+        @keyframes glowText {
+            0% { text-shadow: 0 4px 10px rgba(255, 77, 77, 0.4); }
+            100% { text-shadow: 0 6px 15px rgba(255, 77, 77, 0.6); }
+        }
+
+        .ban-message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            border: 1px solid rgba(255, 77, 77, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .ban-message h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ff4d4d;
+            text-shadow: 0 2px 8px rgba(255, 77, 77, 0.4);
+        }
+
+        .ban-message p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .appeal-btn {
+            background: linear-gradient(135deg, #7289da, #5865f2);
+            color: #fff;
+            border: none;
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(114, 137, 218, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .appeal-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .appeal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(114, 137, 218, 0.5);
+        }
+
+        .appeal-btn:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .ban-container h1 {
+                font-size: 2.5rem;
+            }
+
+            .ban-message {
+                max-width: 350px;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .logo-icon::before {
+                font-size: 1.5rem;
+            }
+
+            .ban-container h1 {
+                font-size: 2rem;
+            }
+
+            .ban-message {
+                max-width: 300px;
+                padding: 1.2rem;
+            }
+
+            .ban-message h2 {
+                font-size: 1.3rem;
+            }
+
+            .appeal-btn {
+                padding: 0.8rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ban-container">
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <h1>Horizon World</h1>
+        </div>
+        <div class="ban-message">
+            <h2>You're Banned</h2>
+            <p>You have been banned from Horizon World. To appeal this decision, please contact us on Discord.</p>
+            <a href="https://discord.gg/TKC8XjGSAw" target="_blank" class="appeal-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.249a18.27 18.27 0 00-5.487 0c-.164-.385-.398-.874-.608-1.249a.075.075 0 00-.079-.037A19.791 19.791 0 003.683 4.369a.075.075 0 00-.032.027C1.195 7.755.1 11.965.016 16.306a.075.075 0 00.029.065 19.854 19.854 0 005.993 3.029.075.075 0 00.082-.028c.46-.617.874-1.273 1.234-1.962a.075.075 0 00-.041-.1 13.123 13.123 0 01-1.872-.892.075.075 0 01-.008-.127c.126-.094.252-.192.378-.291a.075.075 0 01.078-.013 14.663 14.663 0 0012.18 0 .075.075 0 01.078.013c.126.099.252.197.378.291a.075.075 0 01-.008.127 13.123 13.123 0 01-1.872.892.075.075 0 00-.041.1c.36.689.774 1.345 1.234 1.962a.075.075 0 00.082.028 19.854 19.854 0 005.993-3.029.075.075 0 00.029-.065c-.094-4.341-1.189-8.551-3.645-11.937a.075.075 0 00-.032-.027zM8.02 15.331c-1.182 0-2.14-.959-2.14-2.14s.958-2.14 2.14-2.14 2.14.959 2.14 2.14-.958 2.14-2.14 2.14zm7.96 0c-1.182 0-2.14-.959-2.14-2.14s.958-2.14 2.14-2.14 2.14.959 2.14 2.14-.958 2.14-2.14 2.14z"/>
+                </svg>
+                Appeal on Discord
+            </a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.from('.logo', { duration: 1.5, y: -60, opacity: 0, ease: 'power4.out' });
+            gsap.from('.ban-message', { duration: 1.5, y: 60, opacity: 0, ease: 'power4.out', delay: 0.7 });
+            gsap.from('.appeal-btn', { duration: 1.2, scale: 0, ease: 'elastic.out(1, 0.4)', delay: 1.6 });
+
+            window.addEventListener('popstate', () => {
+                window.location.href = '/ban';
+            });
+
+            window.addEventListener('beforeunload', (e) => {
+                e.preventDefault();
+            });
+
+            setInterval(() => {
+                if (window.location.pathname !== '/ban') {
+                    window.location.href = '/ban';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

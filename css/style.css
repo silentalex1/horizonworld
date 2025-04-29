@@ -4,211 +4,233 @@
 
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #0d0d0d;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(145deg, #0a1a4f, #142c7a);
     color: #f5f5f5;
-}
-
-.browser-container {
-    display: flex;
-    height: 100vh;
-    flex-direction: row;
-}
-
-.sidebar {
-    width: 250px;
-    background: #1c1c1c;
-    padding: 2rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.user-info {
-    margin-bottom: 1.5rem;
-    padding: 0.8rem;
-    background: rgba(255, 235, 59, 0.1);
-    border-radius: 8px;
-    text-align: center;
-}
-
-.user-info span {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #ffeb3b;
-}
-
-.sidebar-btn {
-    background: #2d2d2d;
-    color: #f5f5f5;
-    border: none;
-    padding: 1rem;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.sidebar-btn.active, .sidebar-btn:hover {
-    background: #ffeb3b;
-    color: #0d0d0d;
-}
-
-.main-content {
-    flex: 1;
-    padding: 2rem;
-    background: #15202b;
-}
-
-.url-bar {
-    background: #2d2d2d;
-    padding: 1rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.url-bar span {
-    color: #b0b0b0;
-    font-size: 1rem;
-}
-
-.content h2 {
-    color: #ffeb3b;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1.2rem;
-}
-
-.content p {
-    font-size: 1.2rem;
+    overflow-x: hidden;
     line-height: 1.7;
 }
 
-.content ul {
-    list-style: none;
-    padding: 0;
-}
-
-.content li {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.8rem;
-    margin-bottom: 0.5rem;
-    border-radius: 8px;
-}
-
-.permission-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+.auth-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    padding: 2.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
 }
 
-.modal-content {
-    background: #1c1c1c;
-    padding: 2rem;
-    border-radius: 15px;
-    text-align: center;
-    max-width: 500px;
-    width: 90%;
+.auth-container h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #facc15;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    margin-bottom: 2.5rem;
 }
 
-.modal-content h3 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 450px;
 }
 
-.modal-content p {
+.auth-form input {
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
     font-size: 1.1rem;
-    margin-bottom: 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    color: #f5f5f5;
+    outline: none;
+    transition: background 0.3s ease;
+}
+
+.auth-form input::placeholder {
     color: #b0b0b0;
 }
 
-.grant-btn, .deny-btn {
-    padding: 0.8rem 2rem;
+.auth-form input:focus {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.auth-form button {
+    background: #facc15;
+    color: #0a1a4f;
     border: none;
+    padding: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin: 0 0.8rem;
     transition: all 0.3s ease;
 }
 
-.grant-btn {
-    background: #ffeb3b;
-    color: #0d0d0d;
+.auth-form button:hover {
+    background: #eab308;
+    transform: scale(1.05);
 }
 
-.deny-btn {
-    background: #4a4a4a;
-    color: #f5f5f5;
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem;
+    text-align: center;
 }
 
-.grant-btn:hover {
-    background: #ffd700;
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
 }
 
-.deny-btn:hover {
-    background: #666;
+header h1 {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: #facc15;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.user-info span {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.user-info button {
+    background: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.user-info button:hover {
+    background: #ff1a1a;
+}
+
+.news {
+    margin: 3.5rem 0;
+}
+
+.news h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #00d4ff;
+    margin-bottom: 2.5rem;
+}
+
+.news-item {
+    background: rgba(255, 255, 255, 0.18);
+    padding: 2.5rem;
+    border-radius: 25px;
+    margin-bottom: 2.5rem;
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s ease;
+}
+
+.news-item:hover {
+    transform: translateY(-10px);
+}
+
+.news-item h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #facc15;
+    margin-bottom: 1.2rem;
+}
+
+.news-item p {
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
+.start-btn {
+    background: #facc15;
+    color: #0a1a4f;
+    border: none;
+    padding: 1.5rem 5rem;
+    font-size: 1.7rem;
+    font-weight: 600;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.start-btn:hover {
+    background: #eab308;
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 768px) {
-    .browser-container {
+    .auth-container h1 {
+        font-size: 3rem;
+    }
+
+    header {
         flex-direction: column;
+        gap: 1.2rem;
     }
 
-    .sidebar {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 1rem;
+    header h1 {
+        font-size: 3.5rem;
     }
 
-    .sidebar-btn {
-        padding: 0.8rem;
-        font-size: 1rem;
+    .news h2 {
+        font-size: 2.5rem;
     }
 
-    .main-content {
-        padding: 1.5rem;
+    .news-item h3 {
+        font-size: 1.7rem;
     }
 
-    .content h2 {
-        font-size: 1.8rem;
-    }
-
-    .content p {
+    .news-item p {
         font-size: 1.1rem;
+    }
+
+    .start-btn {
+        padding: 1.2rem 4rem;
+        font-size: 1.4rem;
     }
 }
 
 @media (max-width: 480px) {
-    .sidebar-btn {
-        font-size: 0.9rem;
-        padding: 0.6rem;
+    .auth-container h1 {
+        font-size: 2.2rem;
     }
 
-    .url-bar span {
-        font-size: 0.9rem;
+    .auth-form {
+        max-width: 350px;
     }
 
-    .modal-content h3 {
-        font-size: 1.4rem;
+    header h1 {
+        font-size: 2.5rem;
     }
 
-    .modal-content p {
-        font-size: 1rem;
+    .news h2 {
+        font-size: 2rem;
     }
 
-    .grant-btn, .deny-btn {
-        padding: 0.6rem 1.5rem;
-        font-size: 1rem;
+    .news-item {
+        padding: 1.5rem;
+    }
+
+    .start-btn {
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
     }
 }

@@ -7,6 +7,8 @@
     <title>Horizon World - Lobby</title>
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="/js/backend.js"></script>
+    <script src="/js/script.js"></script>
 </head>
 <body>
     <div class="container">
@@ -14,7 +16,7 @@
             <h1>Horizon World</h1>
             <div class="user-info">
                 <span id="welcomeUser"></span>
-                <button onclick="signOut()">Sign Out</button>
+                <button id="signOutBtn">Sign Out</button>
             </div>
         </header>
         <main>
@@ -36,10 +38,8 @@
                     <p>Made it so you're able to see the "Get Started" button on the main website.</p>
                 </div>
             </section>
-            <button class="start-btn" onclick="window.open('/browser.html', '_blank', 'width=1000,height=800')">Get Started</button>
+            <button class="start-btn">Get Started</button>
         </main>
     </div>
-    <script src="/js/backend.js"></script>
-    <script src="/js/script.js"></script>
 </body>
 </html>

@@ -133,6 +133,24 @@
             box-shadow: 0 4px 12px rgba(255, 77, 77, 0.4);
         }
 
+        .admin-btn {
+            background: rgba(0, 212, 255, 0.9);
+            color: #fff;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .admin-btn:hover {
+            background: #00a3ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+        }
+
         main {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -549,10 +567,21 @@
                 window.location.href = '/index.html';
                 return;
             }
-            
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            if (!users.includes(user)) {
+                users.push(user);
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+
             document.getElementById('welcomeUser').textContent = `Welcome, ${user}!`;
             document.getElementById('userInitial').textContent = user.charAt(0).toUpperCase();
-            
+
+            const adminBtn = document.getElementById('adminBtn');
+            if (user === String.fromCharCode(114, 101, 97, 108, 97, 108, 101, 120)) {
+                adminBtn.style.display = 'inline-block';
+            }
+
             gsap.from('.logo', { duration: 1.2, y: -40, opacity: 0, ease: 'power4.out' });
             gsap.from('.user-info', { duration: 1.2, x: 40, opacity: 0, ease: 'power4.out', delay: 0.3 });
             gsap.from('.featured', { duration: 1, y: 40, opacity: 0, ease: 'power4.out', delay: 0.6 });
@@ -564,14 +593,23 @@
 
             document.querySelectorAll('.start-btn, .get-started-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    window.open('/browser.html', '_blank', 'width=800,height=600');
+                    const browserWindow = window.open('/browser.html', '_blank', 'width=800,height=600');
+                    if (browserWindow) {
+                        localStorage.setItem('browserOpen', 'true');
+                    }
                 });
             });
-            
+
             document.getElementById('signOutBtn').addEventListener('click', () => {
                 localStorage.removeItem('username');
                 localStorage.removeItem('password');
+                users = users.filter(u => u !== user);
+                localStorage.setItem('users', JSON.stringify(users));
                 window.location.href = '/index.html';
+            });
+
+            adminBtn.addEventListener('click', () => {
+                window.location.href = '/admin';
             });
         });
     </script>
@@ -586,6 +624,7 @@
             <div class="user-info">
                 <div class="user-avatar" id="userInitial"></div>
                 <span id="welcomeUser"></span>
+                <button id="adminBtn" style="display: none;">Admin</button>
                 <button id="signOutBtn">Sign Out</button>
             </div>
         </header>

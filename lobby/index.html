@@ -407,43 +407,6 @@
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
         }
 
-        .glow-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #facc15, #ff9500);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            position: relative;
-            box-shadow: 0 10px 25px rgba(250, 204, 21, 0.4);
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% { box-shadow: 0 10px 25px rgba(250, 204, 21, 0.4); }
-            100% { box-shadow: 0 15px 35px rgba(250, 204, 21, 0.6); }
-        }
-
-        .glow-icon::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #facc15, #ff9500);
-            filter: blur(15px);
-            opacity: 0.4;
-            z-index: -1;
-        }
-
-        .glow-icon svg {
-            width: 40px;
-            height: 40px;
-            color: #0a1a4f;
-        }
-
         .action-card h3 {
             font-size: 1.4rem;
             font-weight: 600;
@@ -545,16 +508,6 @@
                 font-size: 1.2rem;
             }
             
-            .glow-icon {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .glow-icon svg {
-                width: 30px;
-                height: 30px;
-            }
-            
             .start-btn {
                 padding: 0.7rem 1.5rem;
                 font-size: 1rem;
@@ -636,13 +589,9 @@
             
             <aside class="sidebar">
                 <div class="action-card">
-                    <div class="glow-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-                    </div>
                     <h3>Jump Into Action</h3>
                     <p>Ready to explore new worlds? Launch your adventure now!</p>
+                    <button class="start-btn" id="actionStartBtn">Get Started</button>
                 </div>
             </aside>
         </main>
@@ -677,20 +626,23 @@
             gsap.from('.changelog-item', { duration: 0.8, x: -30, opacity: 0, stagger: 0.15, ease: 'power3.out', delay: 0.8 });
             gsap.from('.fix-item', { duration: 0.8, x: -30, opacity: 0, stagger: 0.15, ease: 'power3.out', delay: 1 });
             gsap.from('.action-card', { duration: 1.2, scale: 0.9, opacity: 0, ease: 'power3.out', delay: 1.2 });
-            gsap.from('#startBtn', { duration: 1.2, scale: 0, ease: 'elastic.out(1, 0.4)', delay: 1.6 });
+            gsap.from('.start-btn', { duration: 1.2, scale: 0, ease: 'elastic.out(1, 0.4)', delay: 1.6 });
 
-            document.getElementById('startBtn').addEventListener('click', () => {
-                if (localStorage.getItem('browserOpen') === 'true') {
-                    alert('An external browser is already open. Please close it to start a new session.');
-                    return;
-                }
-                const browserWindow = window.open('/browser.html', '_blank', 'width=800,height=600');
-                if (browserWindow) {
-                    localStorage.setItem('browserOpen', 'true');
-                    browserWindow.addEventListener('unload', () => {
-                        localStorage.setItem('browserOpen', 'false');
-                    });
-                }
+            const startButtons = [document.getElementById('startBtn'), document.getElementById('actionStartBtn')];
+            startButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (localStorage.getItem('browserOpen') === 'true') {
+                        alert('An external browser is already open. Please close it to start a new session.');
+                        return;
+                    }
+                    const browserWindow = window.open('/browser.html', '_blank', 'width=800,height=600');
+                    if (browserWindow) {
+                        localStorage.setItem('browserOpen', 'true');
+                        browserWindow.addEventListener('unload', () => {
+                            localStorage.setItem('browserOpen', 'false');
+                        });
+                    }
+                });
             });
 
             document.getElementById('signOutBtn').addEventListener('click', () => {

@@ -7,6 +7,8 @@
     <title>Horizon World</title>
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="/js/backend.js"></script>
+    <script src="/js/script.js"></script>
 </head>
 <body>
     <div class="auth-container" id="authContainer">
@@ -14,10 +16,8 @@
         <div class="auth-form">
             <input type="text" id="username" placeholder="Username" required>
             <input type="password" id="password" placeholder="Password" required>
-            <button onclick="signIn()">Sign In / Sign Up</button>
+            <button id="signInBtn">Sign In / Sign Up</button>
         </div>
     </div>
-    <script src="/js/backend.js"></script>
-    <script src="/js/script.js"></script>
 </body>
 </html>

@@ -458,12 +458,12 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        .get-started-btn {
+        .start-btn {
             background: linear-gradient(135deg, #00d4ff, #007bff);
             color: #fff;
             border: none;
-            padding: 0.8rem 2rem;
-            font-size: 1rem;
+            padding: 0.9rem 2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
@@ -471,14 +471,9 @@
             box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
             position: relative;
             overflow: hidden;
-            margin-top: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
         }
 
-        .get-started-btn::before {
+        .start-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -489,12 +484,12 @@
             transition: all 0.6s ease;
         }
 
-        .get-started-btn:hover {
+        .start-btn:hover {
             transform: translateY(-4px);
             box-shadow: 0 12px 25px rgba(0, 212, 255, 0.5);
         }
 
-        .get-started-btn:hover::before {
+        .start-btn:hover::before {
             left: 100%;
         }
 
@@ -560,7 +555,7 @@
                 height: 30px;
             }
             
-            .get-started-btn {
+            .start-btn {
                 padding: 0.7rem 1.5rem;
                 font-size: 1rem;
             }
@@ -575,11 +570,89 @@
             }
         }
     </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <h1>Horizon World</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar" id="userInitial"></div>
+                <span id="welcomeUser"></span>
+                <button id="adminBtn" class="admin-btn" style="display: none;">Admin</button>
+                <button id="signOutBtn">Sign Out</button>
+            </div>
+        </header>
+        
+        <main>
+            <section class="news">
+                <h2>What's New</h2>
+                
+                <div class="featured">
+                    <h3>Play More Games!</h3>
+                    <p>We've just made it so you're able to play other games within our platform. Explore new worlds and adventures with enhanced gameplay options.</p>
+                    <button class="start-btn" id="startBtn">Get Started</button>
+                </div>
+                
+                <div class="changelog">
+                    <div class="changelog-header">
+                        <h3>Updates</h3>
+                        <span class="version-tag">v1.2.4</span>
+                    </div>
+                    
+                    <ul class="changelog-list">
+                        <li class="changelog-item">
+                            <div class="changelog-number">1</div>
+                            <div class="changelog-text">Added "Get Started" button to website for easier navigation.</div>
+                        </li>
+                        
+                        <li class="changelog-item">
+                            <div class="changelog-number">2</div>
+                            <div class="changelog-text">Added a feature where other Chrome extensions can't close the external browser.</div>
+                        </li>
+                        
+                        <li class="changelog-item">
+                            <div class="changelog-number">3</div>
+                            <div class="changelog-text">Added our first game into the external browser for immediate gameplay.</div>
+                        </li>
+                        
+                        <li class="changelog-item">
+                            <div class="changelog-number">4</div>
+                            <div class="changelog-text">Made it so in settings, you'll be able to view other Chrome extensions on the browser and uninstall them directly from the external browser, just grant full permission when prompted.</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="fixes">
+                    <h3>Fixes</h3>
+                    <div class="fix-item">
+                        <div class="fix-icon">✓</div>
+                        <div class="fix-text">Made it so you're able to see the "Get Started" button on the main website.</div>
+                    </div>
+                </div>
+            </section>
+            
+            <aside class="sidebar">
+                <div class="action-card">
+                    <div class="glow-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                    </div>
+                    <h3>Jump Into Action</h3>
+                    <p>Ready to explore new worlds? Launch your adventure now!</p>
+                </div>
+            </aside>
+        </main>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const user = localStorage.getItem('username');
-            if (!user) {
-                window.location.href = '/index.html';
+            let bannedUsers = JSON.parse(localStorage.getItem('bannedUsers')) || [];
+            if (!user || bannedUsers.includes(user)) {
+                window.location.href = bannedUsers.includes(user) ? '/ban' : '/index.html';
                 return;
             }
 
@@ -604,22 +677,20 @@
             gsap.from('.changelog-item', { duration: 0.8, x: -30, opacity: 0, stagger: 0.15, ease: 'power3.out', delay: 0.8 });
             gsap.from('.fix-item', { duration: 0.8, x: -30, opacity: 0, stagger: 0.15, ease: 'power3.out', delay: 1 });
             gsap.from('.action-card', { duration: 1.2, scale: 0.9, opacity: 0, ease: 'power3.out', delay: 1.2 });
-            gsap.from('.get-started-btn', { duration: 1.2, scale: 0, ease: 'elastic.out(1, 0.4)', delay: 1.6 });
+            gsap.from('#startBtn', { duration: 1.2, scale: 0, ease: 'elastic.out(1, 0.4)', delay: 1.6 });
 
-            document.querySelectorAll('.get-started-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if (localStorage.getItem('browserOpen') === 'true') {
-                        alert('An external browser is already open. Please close it to start a new session.');
-                        return;
-                    }
-                    const browserWindow = window.open('/browser.html', '_blank', 'width=800,height=600');
-                    if (browserWindow) {
-                        localStorage.setItem('browserOpen', 'true');
-                        browserWindow.addEventListener('unload', () => {
-                            localStorage.setItem('browserOpen', 'false');
-                        });
-                    }
-                });
+            document.getElementById('startBtn').addEventListener('click', () => {
+                if (localStorage.getItem('browserOpen') === 'true') {
+                    alert('An external browser is already open. Please close it to start a new session.');
+                    return;
+                }
+                const browserWindow = window.open('/browser.html', '_blank', 'width=800,height=600');
+                if (browserWindow) {
+                    localStorage.setItem('browserOpen', 'true');
+                    browserWindow.addEventListener('unload', () => {
+                        localStorage.setItem('browserOpen', 'false');
+                    });
+                }
             });
 
             document.getElementById('signOutBtn').addEventListener('click', () => {
@@ -633,84 +704,23 @@
             adminBtn.addEventListener('click', () => {
                 window.location.href = '/admin';
             });
+
+            window.addEventListener('storage', (event) => {
+                if (event.key === 'bannedUsers') {
+                    bannedUsers = JSON.parse(localStorage.getItem('bannedUsers')) || [];
+                    if (bannedUsers.includes(user)) {
+                        window.location.href = '/ban';
+                    }
+                }
+            });
+
+            window.addEventListener('popstate', () => {
+                bannedUsers = JSON.parse(localStorage.getItem('bannedUsers')) || [];
+                if (bannedUsers.includes(user)) {
+                    window.location.href = '/ban';
+                }
+            });
         });
     </script>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon"></div>
-                <h1>Horizon World</h1>
-            </div>
-            <div class="user-info">
-                <div class="user-avatar" id="userInitial"></div>
-                <span id="welcomeUser"></span>
-                <button id="adminBtn" class="admin-btn" style="display: none;">Admin</button>
-                <button id="signOutBtn">Sign Out</button>
-            </div>
-        </header>
-        
-        <main>
-            <div class="news">
-                <h2>What's New</h2>
-                
-                <div class="featured">
-                    <h3>Play More Games!</h3>
-                    <p>We've just made it so you're able to play other games within our platform. Explore new worlds and adventures with enhanced gameplay options.</p>
-                    <button class="get-started-btn">Get Started</button>
-                </div>
-                
-                <div class="changelog">
-                    <div class="changelog-header">
-                        <h3>Updates</h3>
-                        <span class="version-tag">v1.2.4</span>
-                    </div>
-                    
-                    <div class="changelog-list">
-                        <div class="changelog-item">
-                            <div class="changelog-number">1</div>
-                            <div class="changelog-text">Added "Get Started" button to website for easier navigation.</div>
-                        </div>
-                        
-                        <div class="changelog-item">
-                            <div class="changelog-number">2</div>
-                            <div class="changelog-text">Added a feature where other Chrome extensions can't close the external browser.</div>
-                        </div>
-                        
-                        <div class="changelog-item">
-                            <div class="changelog-number">3</div>
-                            <div class="changelog-text">Added our first game into the external browser for immediate gameplay.</div>
-                        </div>
-                        
-                        <div class="changelog-item">
-                            <div class="changelog-number">4</div>
-                            <div class="changelog-text">Made it so in settings, you'll be able to view other Chrome extensions on the browser and uninstall them directly from the external browser, just grant full permission when prompted.</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="fixes">
-                    <h3>Fixes</h3>
-                    <div class="fix-item">
-                        <div class="fix-icon">✓</div>
-                        <div class="fix-text">Made it so you're able to see the "Get Started" button on the main website.</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="sidebar">
-                <div class="action-card">
-                    <div class="glow-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-                    </div>
-                    <h3>Jump Into Action</h3>
-                    <p>Ready to explore new worlds? Launch your adventure now!</p>
-                </div>
-            </div>
-        </main>
-    </div>
 </body>
 </html>

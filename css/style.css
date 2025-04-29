@@ -5,26 +5,115 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(145deg, #0f2557, #1e3a8a);
+    background: linear-gradient(145deg, #0d1b4a, #1a2f77);
     color: #f5f5f5;
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.7;
+}
+
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.auth-container h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #ffeb3b;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 2rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-form input {
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #f5f5f5;
+    outline: none;
+}
+
+.auth-form input::placeholder {
+    color: #b0b0b0;
+}
+
+.auth-form button {
+    background: #ffeb3b;
+    color: #0d1b4a;
+    border: none;
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth-form button:hover {
+    background: #ffd700;
+    transform: scale(1.05);
 }
 
 .container {
-    max-width: 1300px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 3rem 1.5rem;
     text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
 header h1 {
     font-size: 4rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.1rem;
     color: #ffeb3b;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-info span {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.user-info button {
+    background: #ff5555;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.user-info button:hover {
+    background: #ff3333;
 }
 
 .news {
@@ -32,67 +121,76 @@ header h1 {
 }
 
 .news h2 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 600;
-    margin-bottom: 2rem;
     color: #00e7ff;
+    margin-bottom: 2rem;
 }
 
 .news-item {
-    background: rgba(255, 255, 255, 0.12);
-    padding: 1.5rem;
-    border-radius: 15px;
-    margin-bottom: 1.5rem;
-    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
     transition: transform 0.3s ease;
 }
 
 .news-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
 }
 
 .news-item h3 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 500;
-    margin-bottom: 0.8rem;
     color: #ffeb3b;
+    margin-bottom: 1rem;
 }
 
 .news-item p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 300;
 }
 
 .start-btn {
     background: #ffeb3b;
-    color: #0f2557;
+    color: #0d1b4a;
     border: none;
-    padding: 1rem 3rem;
-    font-size: 1.3rem;
+    padding: 1.2rem 4rem;
+    font-size: 1.5rem;
     font-weight: 600;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .start-btn:hover {
     background: #ffd700;
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 768px) {
-    header h1 {
+    .auth-container h1 {
         font-size: 2.5rem;
     }
 
+    header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    header h1 {
+        font-size: 3rem;
+    }
+
     .news h2 {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
 
     .news-item h3 {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }
 
     .news-item p {
@@ -100,26 +198,34 @@ header h1 {
     }
 
     .start-btn {
-        padding: 0.8rem 2rem;
-        font-size: 1.1rem;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
     }
 }
 
 @media (max-width: 480px) {
-    header h1 {
+    .auth-container h1 {
         font-size: 2rem;
     }
 
+    .auth-form {
+        max-width: 300px;
+    }
+
+    header h1 {
+        font-size: 2.2rem;
+    }
+
     .news h2 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
     }
 
     .news-item {
-        padding: 1rem;
+        padding: 1.2rem;
     }
 
     .start-btn {
-        padding: 0.6rem 1.5rem;
+        padding: 0.8rem 2rem;
         font-size: 1rem;
     }
 }

@@ -146,6 +146,7 @@
             justify-content: space-between;
             align-items: center;
             transition: background 0.3s ease, transform 0.3s ease;
+            gap: 0.5rem;
         }
 
         .user-list li:hover {
@@ -153,7 +154,7 @@
             transform: translateX(5px);
         }
 
-        .promote-btn {
+        .promote-btn, .ban-btn {
             background: #00d4ff;
             color: #fff;
             border: none;
@@ -165,13 +166,22 @@
             transition: all 0.3s ease;
         }
 
-        .promote-btn:hover {
+        .promote-btn:hover, .ban-btn:hover {
             background: #00a3ff;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
         }
 
-        .promote-btn.disabled {
+        .ban-btn {
+            background: #ff4d4d;
+        }
+
+        .ban-btn:hover {
+            background: #ff1a1a;
+            box-shadow: 0 4px 12px rgba(255, 77, 77, 0.4);
+        }
+
+        .promote-btn.disabled, .ban-btn.disabled {
             background: #404040;
             cursor: not-allowed;
         }
@@ -297,8 +307,52 @@
             .code-control .btn-group {
                 flex-direction: column;
             }
+
+            .user-list li {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
         }
     </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <div class="login-form">
+            <input type="password" id="adminCode" placeholder="Enter Admin Code">
+            <button id="loginBtn">Login</button>
+        </div>
+    </div>
+    <div class="admin-panel">
+        <h2>Admin Panel</h2>
+        <div class="section">
+            <h3>Users</h3>
+            <div class="user-list">
+                <ul id="userList"></ul>
+            </div>
+        </div>
+        <div class="section">
+            <h3>Community Stats</h3>
+            <div class="stats">
+                <p id="activeUsers">Active Users: 0</p>
+                <p id="browserStatus">External Browser: Inactive</p>
+            </div>
+        </div>
+        <div class="section">
+            <h3>Entry Code Control</h3>
+            <div class="code-control">
+                <input type="text" id="newCode" placeholder="New Entry Code">
+                <div class="btn-group">
+                    <button id="updateCodeBtn">Update Code</button>
+                    <button id="disableCodeBtn" class="disable-btn">Disable Code</button>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h3>Controls</h3>
+            <button id="pauseBtn" class="control-btn">Pause Browser</button>
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const loginContainer = document.querySelector('.login-container');
@@ -311,6 +365,7 @@
             const codeInputField = document.getElementById('newCode');
             const updateCodeBtn = document.getElementById('updateCodeBtn');
             const disableCodeBtn = document.getElementById('disableCodeBtn');
+            const owner = String.fromCharCode(114, 101, 97, 108, 97, 108, 101, 120);
 
             loginBtn.addEventListener('click', () => {
                 const code = codeInput.value;
@@ -326,7 +381,11 @@
 
             function loadAdminData() {
                 const users = JSON.parse(localStorage.getItem('users')) || [];
-                const admins = JSON.parse(localStorage.getItem('admins')) || [String.fromCharCode(114, 101, 97, 108, 97, 108, 101, 120)];
+                const admins = JSON.parse(localStorage.getItem('admins')) || [owner];
+                const bannedUsers = JSON.parse(localStorage.getItem('bannedUsers')) || [];
+                const currentUser = localStorage.getItem('username');
+                const isOwner = currentUser === owner;
+
                 userList.innerHTML = users.map(user => `
                     <li>
                         ${user}
@@ -334,6 +393,11 @@
                                 onclick="promoteUser('${user}')" 
                                 ${admins.includes(user) ? 'disabled' : ''}>
                             ${admins.includes(user) ? 'Admin' : 'Promote to Admin'}
+                        </button>
+                        <button class="ban-btn ${bannedUsers.includes(user) || user === owner ? 'disabled' : ''}" 
+                                onclick="banUser('${user}')" 
+                                ${bannedUsers.includes(user) || user === owner || !isOwner ? 'disabled' : ''}>
+                            ${bannedUsers.includes(user) ? 'Banned' : 'Ban User'}
                         </button>
                     </li>
                 `).join('');
@@ -350,11 +414,23 @@
             }
 
             window.promoteUser = function(user) {
-                let admins = JSON.parse(localStorage.getItem('admins')) || [String.fromCharCode(114, 101, 97, 108, 97, 108, 101, 120)];
+                let admins = JSON.parse(localStorage.getItem('admins')) || [owner];
                 if (!admins.includes(user)) {
                     admins.push(user);
                     localStorage.setItem('admins', JSON.stringify(admins));
                     loadAdminData();
+                }
+            };
+
+            window.banUser = function(user) {
+                let bannedUsers = JSON.parse(localStorage.getItem('bannedUsers')) || [];
+                if (!bannedUsers.includes(user)) {
+                    bannedUsers.push(user);
+                    localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
+                    loadAdminData();
+                    if (user === localStorage.getItem('username')) {
+                        window.location.href = '/ban';
+                    }
                 }
             };
 
@@ -404,46 +480,14 @@
                 disableCodeBtn.textContent = 'Enable Code';
                 disableCodeBtn.classList.add('active');
             }
+
+            window.addEventListener('popstate', () => {
+                let bannedUsers = JSON.parse(localStorage.getItem('bannedUsers')) || [];
+                if (bannedUsers.includes(localStorage.getItem('username'))) {
+                    window.location.href = '/ban';
+                }
+            });
         });
     </script>
-</head>
-<body>
-    <div class="login-container">
-        <h2>Admin Login</h2>
-        <div class="login-form">
-            <input type="password" id="adminCode" placeholder="Enter Admin Code">
-            <button id="loginBtn">Login</button>
-        </div>
-    </div>
-    <div class="admin-panel">
-        <h2>Admin Panel</h2>
-        <div class="section">
-            <h3>Users</h3>
-            <div class="user-list">
-                <ul id="userList"></ul>
-            </div>
-        </div>
-        <div class="section">
-            <h3>Community Stats</h3>
-            <div class="stats">
-                <p id="activeUsers">Active Users: 0</p>
-                <p id="browserStatus">External Browser: Inactive</p>
-            </div>
-        </div>
-        <div class="section">
-            <h3>Entry Code Control</h3>
-            <div class="code-control">
-                <input type="text" id="newCode" placeholder="New Entry Code">
-                <div class="btn-group">
-                    <button id="updateCodeBtn">Update Code</button>
-                    <button id="disableCodeBtn" class="disable-btn">Disable Code</button>
-                </div>
-            </div>
-        </div>
-        <div class="section">
-            <h3>Controls</h3>
-            <button id="pauseBtn" class="control-btn">Pause Browser</button>
-        </div>
-    </div>
 </body>
 </html>

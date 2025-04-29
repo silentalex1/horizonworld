@@ -9,25 +9,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Horizon World</h1>
-        </header>
-        <main>
-            <section class="news">
-                <h2>What's New</h2>
-                <div class="news-item">
-                    <h3>Play More Games!</h3>
-                    <p>We've just made it so you're able to play other games.</p>
-                </div>
-                <div class="news-item">
-                    <h3>Updates & Fixes</h3>
-                    <p>Squashed a bug in "Pixel Quest" that stopped progress saving. Also made the leaderboard smoother for better tracking.</p>
-                </div>
-            </section>
-            <button class="start-btn" onclick="window.open('/browser.html', '_blank', 'width=900,height=700')">Get Started</button>
-        </main>
+    <div class="auth-container" id="authContainer">
+        <h1>Horizon World</h1>
+        <div class="auth-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button onclick="signIn()">Sign In / Sign Up</button>
+        </div>
     </div>
+    <script src="/js/backend.js"></script>
     <script src="/js/script.js"></script>
 </body>
 </html>

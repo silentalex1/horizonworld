@@ -14,6 +14,12 @@
             font-family: 'Inter', sans-serif;
             background: #0a0a0a;
             color: #f5f5f5;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            background: #f5f5f5;
+            color: #0a0a0a;
         }
 
         .browser-container {
@@ -31,12 +37,20 @@
             gap: 1rem;
         }
 
+        .light-mode .sidebar {
+            background: #e0e0e0;
+        }
+
         .user-info {
             margin-bottom: 1.5rem;
             padding: 0.8rem;
             background: rgba(250, 204, 21, 0.12);
             border-radius: 8px;
             text-align: center;
+        }
+
+        .light-mode .user-info {
+            background: rgba(250, 204, 21, 0.3);
         }
 
         .user-info span {
@@ -57,6 +71,11 @@
             transition: all 0.3s ease;
         }
 
+        .light-mode .sidebar-btn {
+            background: #d0d0d0;
+            color: #0a0a0a;
+        }
+
         .sidebar-btn.active, .sidebar-btn:hover {
             background: #facc15;
             color: #0a0a0a;
@@ -68,6 +87,10 @@
             background: #121a25;
         }
 
+        .light-mode .main-content {
+            background: #ffffff;
+        }
+
         .url-bar {
             background: #1e1e1e;
             padding: 1rem;
@@ -76,9 +99,18 @@
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
         }
 
+        .light-mode .url-bar {
+            background: #d0d0d0;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
         .url-bar span {
             color: #b0b0b0;
             font-size: 0.9rem;
+        }
+
+        .light-mode .url-bar span {
+            color: #666666;
         }
 
         .content h2 {
@@ -91,6 +123,51 @@
         .content p {
             font-size: 1.1rem;
             line-height: 1.6;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .light-mode .game-card {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .game-card:hover {
+            transform: scale(1.02);
+        }
+
+        .game-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-card p {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+
+        .light-mode .game-card p {
+            color: #666666;
+        }
+
+        .game-card button {
+            background: #facc15;
+            color: #0a0a0a;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .game-card button:hover {
+            background: #eab308;
         }
 
         .content ul {
@@ -108,6 +185,10 @@
             align-items: center;
         }
 
+        .light-mode .content li {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
         .content li button {
             background: #ff4d4d;
             color: #fff;
@@ -122,6 +203,48 @@
             background: #ff1a1a;
         }
 
+        .toggle-mode {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .toggle-mode label {
+            font-size: 1rem;
+        }
+
+        .toggle-mode input {
+            width: 40px;
+            height: 20px;
+            appearance: none;
+            background: #404040;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .toggle-mode input:checked {
+            background: #facc15;
+        }
+
+        .toggle-mode input::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-mode input:checked::before {
+            left: 22px;
+        }
+
         .permission-modal {
             position: fixed;
             top: 0;
@@ -134,6 +257,10 @@
             align-items: center;
         }
 
+        .light-mode .permission-modal {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
         .modal-content {
             background: #141414;
             padding: 2rem;
@@ -141,6 +268,10 @@
             text-align: center;
             max-width: 450px;
             width: 90%;
+        }
+
+        .light-mode .modal-content {
+            background: #ffffff;
         }
 
         .modal-content h3 {
@@ -152,6 +283,10 @@
             font-size: 1rem;
             margin-bottom: 1.5rem;
             color: #b0b0b0;
+        }
+
+        .light-mode .modal-content p {
+            color: #666666;
         }
 
         .grant-btn, .deny-btn {
@@ -175,12 +310,21 @@
             color: #f5f5f5;
         }
 
+        .light-mode .deny-btn {
+            background: #d0d0d0;
+            color: #0a0a0a;
+        }
+
         .grant-btn:hover {
             background: #eab308;
         }
 
         .deny-btn:hover {
             background: #606060;
+        }
+
+        .light-mode .deny-btn:hover {
+            background: #b0b0b0;
         }
 
         @media (max-width: 768px) {
@@ -210,6 +354,14 @@
 
             .content p {
                 font-size: 1rem;
+            }
+
+            .game-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .game-card p {
+                font-size: 0.85rem;
             }
         }
 
@@ -253,6 +405,12 @@
             const sidebarBtns = document.querySelectorAll('.sidebar-btn');
             const content = document.getElementById('browserContent');
 
+            if (localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('light-mode');
+                const toggle = document.getElementById('themeToggle');
+                if (toggle) toggle.checked = true;
+            }
+
             grantBtn.addEventListener('click', () => {
                 if (rateLimit()) {
                     modal.style.display = 'none';
@@ -282,12 +440,44 @@
                         btn.classList.add('active');
 
                         if (btn.textContent === 'Arcade') {
-                            content.innerHTML = '<h2>Latest Arcade Releases</h2><p>Play our first game, "Star Racer", now available in the arcade!</p>';
+                            content.innerHTML = `
+                                <h2>Latest Arcade Releases</h2>
+                                <div class="game-card">
+                                    <h3>Star Racer</h3>
+                                    <p>Speed through the galaxy in this thrilling racing game!</p>
+                                    <button onclick="alert('Launching Star Racer...')">Play Now</button>
+                                </div>
+                                <div class="game-card">
+                                    <h3>Pixel Quest</h3>
+                                    <p>Explore a retro world in this action-packed adventure.</p>
+                                    <button onclick="alert('Launching Pixel Quest...')">Play Now</button>
+                                </div>
+                            `;
                         } else if (btn.textContent === 'Changelogs') {
                             content.innerHTML = '<h2>Changelogs</h2><p>Version 1.2: Added new arcade games and fixed bugs in "Pixel Quest".</p>';
                         } else if (btn.textContent === 'Settings') {
                             if (localStorage.getItem('permission') === 'granted') {
-                                content.innerHTML = '<h2>Settings</h2><p>Manage Chrome extensions here.</p><ul><li>Extension 1 <button onclick="uninstallExtension(\'Extension 1\')">Uninstall</button></li><li>Extension 2 <button onclick="uninstallExtension(\'Extension 2\')">Uninstall</button></li></ul>';
+                                content.innerHTML = `
+                                    <h2>Settings</h2>
+                                    <p>Manage Chrome extensions here.</p>
+                                    <ul>
+                                        <li>Extension 1 <button onclick="uninstallExtension('Extension 1')">Uninstall</button></li>
+                                        <li>Extension 2 <button onclick="uninstallExtension('Extension 2')">Uninstall</button></li>
+                                    </ul>
+                                    <div class="toggle-mode">
+                                        <label>Light Mode</label>
+                                        <input type="checkbox" id="themeToggle">
+                                    </div>
+                                `;
+                                document.getElementById('themeToggle').addEventListener('change', (e) => {
+                                    if (e.target.checked) {
+                                        document.body.classList.add('light-mode');
+                                        localStorage.setItem('theme', 'light');
+                                    } else {
+                                        document.body.classList.remove('light-mode');
+                                        localStorage.setItem('theme', 'dark');
+                                    }
+                                });
                             } else {
                                 content.innerHTML = '<h2>Settings</h2><p>Please grant full permission to manage Chrome extensions.</p>';
                             }
@@ -341,7 +531,16 @@
             </div>
             <div class="content" id="browserContent">
                 <h2>Latest Arcade Releases</h2>
-                <p>Play our first game, "Star Racer", now available in the arcade!</p>
+                <div class="game-card">
+                    <h3>Star Racer</h3>
+                    <p>Speed through the galaxy in this thrilling racing game!</p>
+                    <button onclick="alert('Launching Star Racer...')">Play Now</button>
+                </div>
+                <div class="game-card">
+                    <h3>Pixel Quest</h3>
+                    <p>Explore a retro world in this action-packed adventure.</p>
+                    <button onclick="alert('Launching Pixel Quest...')">Play Now</button>
+                </div>
             </div>
         </div>
     </div>

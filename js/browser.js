@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
 
             if (btn.textContent === 'Arcade') {
-                content.innerHTML = '<h2>Latest Arcade Releases</h2><p>Explore "Star Racer" and "Pixel Quest" in our arcade section!</p>';
+                content.innerHTML = '<h2>Latest Arcade Releases</h2><p>Dive into "Star Racer" and "Pixel Quest" in our arcade section!</p>';
             } else if (btn.textContent === 'Changelogs') {
                 content.innerHTML = '<h2>Changelogs</h2><p>Version 1.2: Added new arcade games and fixed bugs in "Pixel Quest".</p>';
             } else if (btn.textContent === 'Settings') {

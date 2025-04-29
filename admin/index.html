@@ -440,12 +440,18 @@
                     localStorage.setItem('browserPaused', 'false');
                     pauseBtn.textContent = 'Pause Browser';
                     pauseBtn.classList.remove('active');
+                    broadcastPauseState(false);
                 } else {
                     localStorage.setItem('browserPaused', 'true');
                     pauseBtn.textContent = 'Resume Browser';
                     pauseBtn.classList.add('active');
+                    broadcastPauseState(true);
                 }
             });
+
+            function broadcastPauseState(isPaused) {
+                localStorage.setItem('browserPauseState', JSON.stringify({ paused: isPaused, timestamp: Date.now() }));
+            }
 
             updateCodeBtn.addEventListener('click', () => {
                 const newCode = codeInputField.value;

@@ -1,1 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/browser.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-gamepad"></i>
+                Horizon World
+            </a>
+            <nav class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Latest News</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </header>
 
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Welcome to Horizon World</h1>
+            <p>Discover a universe of arcade games right in your browser. Explore new worlds, compete with friends, and experience gaming like never before.</p>
+            <button class="cta-button" id="getStartedBtn">Get Started</button>
+        </div>
+    </section>
+
+    <section class="news-section">
+        <div class="container">
+            <h2 class="section-title">Latest News</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <img src="/api/placeholder/400/200" alt="News image" class="news-image">
+                    <div class="news-content">
+                        <div class="news-date">April 28, 2025</div>
+                        <h3 class="news-title">Space Racer Now Available</h3>
+                        <p class="news-excerpt">Our newest racing game set in space is now available! Race through asteroid fields and orbital rings in this high-speed adventure.</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <img src="/api/placeholder/400/200" alt="News image" class="news-image">
+                    <div class="news-content">
+                        <div class="news-date">April 25, 2025</div>
+                        <h3 class="news-title">Bug Fixes & Updates</h3>
+                        <p class="news-excerpt">We've fixed the loading issues in Dungeon Quest and improved performance across all games. Enjoy smoother gameplay!</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <img src="/api/placeholder/400/200" alt="News image" class="news-image">
+                    <div class="news-content">
+                        <div class="news-date">April 20, 2025</div>
+                        <h3 class="news-title">New Tournament System</h3>
+                        <p class="news-excerpt">Introducing our new tournament system! Compete with players worldwide and win exclusive in-game rewards.</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="browserModalContainer"></div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="footer-title">Horizon World</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Games</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">All Games</a></li>
+                        <li><a href="#">New Releases</a></li>
+                        <li><a href="#">Popular</a></li>
+                        <li><a href="#">Categories</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2025 Horizon World. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+    <script src="/js/browser.js"></script>
+</body>
+</html>

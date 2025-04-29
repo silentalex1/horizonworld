@@ -282,6 +282,11 @@
     <script>
         function saveUser(username, password) {
             let users = JSON.parse(localStorage.getItem('users')) || [];
+            let bannedUsers = JSON.parse(localStorage.getItem('bannedUsers')) || [];
+            if (bannedUsers.includes(username)) {
+                window.location.href = '/ban';
+                return false;
+            }
             if (users.includes(username)) {
                 const storedPassword = localStorage.getItem(`password_${username}`);
                 if (storedPassword === password) {
@@ -361,6 +366,13 @@
                 if (event.key === 'entryCode') {
                     entryCode.value = '';
                     flipCard.classList.remove('flipped');
+                }
+            });
+
+            window.addEventListener('popstate', () => {
+                let bannedUsers = JSON.parse(localStorage.getItem('bannedUsers')) || [];
+                if (bannedUsers.includes(localStorage.getItem('username'))) {
+                    window.location.href = '/ban';
                 }
             });
         });

@@ -34,6 +34,7 @@
             height: 100%;
             background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
             z-index: -1;
+            will-change: transform;
         }
 
         .container {
@@ -78,13 +79,6 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4); }
-            50% { box-shadow: 0 6px 20px rgba(250, 204, 21, 0.6); }
-            100% { box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4); }
         }
 
         .logo-icon::before {
@@ -107,12 +101,6 @@
             background: linear-gradient(90deg, #facc15, #ff9500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: glowText 2s infinite alternate;
-        }
-
-        @keyframes glowText {
-            0% { text-shadow: 0 2px 8px rgba(250, 204, 21, 0.4); }
-            100% { text-shadow: 0 4px 12px rgba(250, 204, 21, 0.6); }
         }
 
         .user-info {
@@ -125,6 +113,7 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
+            will-change: transform;
         }
 
         .user-info:hover {
@@ -143,6 +132,7 @@
             color: #fff;
             box-shadow: 0 2px 8px rgba(0, 212, 255, 0.4);
             transition: transform 0.3s ease;
+            will-change: transform;
         }
 
         .user-avatar:hover {
@@ -165,6 +155,7 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.3s ease;
+            will-change: transform;
         }
 
         .user-info button:hover {
@@ -183,6 +174,7 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.3s ease;
+            will-change: transform;
         }
 
         .admin-btn:hover {
@@ -205,6 +197,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform, box-shadow;
         }
 
         .news:hover {
@@ -244,6 +237,7 @@
             border: 1px solid rgba(250, 204, 21, 0.1);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform, box-shadow;
         }
 
         .featured:hover {
@@ -293,6 +287,7 @@
             font-size: 0.8rem;
             font-weight: 500;
             transition: transform 0.3s ease;
+            will-change: transform;
         }
 
         .version-tag:hover {
@@ -312,6 +307,7 @@
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.05);
             transition: background 0.3s ease, transform 0.3s ease;
+            will-change: transform, background;
         }
 
         .changelog-item:hover {
@@ -360,6 +356,7 @@
             background: rgba(255, 255, 255, 0.05);
             margin-bottom: 0.8rem;
             transition: background 0.3s ease, transform 0.3s ease;
+            will-change: transform, background;
         }
 
         .fix-item:hover {
@@ -400,6 +397,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform, box-shadow;
         }
 
         .action-card:hover {
@@ -434,6 +432,7 @@
             box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
             position: relative;
             overflow: hidden;
+            will-change: transform, box-shadow;
         }
 
         .start-btn::before {
@@ -445,6 +444,7 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: all 0.6s ease;
+            will-change: transform;
         }
 
         .start-btn:hover {
@@ -522,14 +522,33 @@
                 margin-bottom: 0.3rem;
             }
         }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4); }
+            50% { box-shadow: 0 6px 20px rgba(250, 204, 21, 0.6); }
+            100% { box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4); }
+        }
+
+        .glow-text {
+            animation: glowText 2s infinite alternate;
+        }
+
+        @keyframes glowText {
+            0% { text-shadow: 0 2px 8px rgba(250, 204, 21, 0.4); }
+            100% { text-shadow: 0 4px 12px rgba(250, 204, 21, 0.6); }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <div class="logo">
-                <div class="logo-icon"></div>
-                <h1>Horizon World</h1>
+                <div class="logo-icon pulse"></div>
+                <h1 class="glow-text">Horizon World</h1>
             </div>
             <div class="user-info">
                 <div class="user-avatar" id="userInitial"></div>
@@ -620,30 +639,60 @@
                 adminBtn.style.display = 'inline-block';
             }
 
-            gsap.from('.logo', { duration: 1.2, y: -40, opacity: 0, ease: 'power4.out' });
-            gsap.from('.user-info', { duration: 1.2, x: 40, opacity: 0, ease: 'power4.out', delay: 0.3 });
-            gsap.from('.featured', { duration: 1, y: 40, opacity: 0, ease: 'power4.out', delay: 0.6 });
-            gsap.from('.changelog-item', { duration: 0.8, x: -30, opacity: 0, stagger: 0.15, ease: 'power3.out', delay: 0.8 });
-            gsap.from('.fix-item', { duration: 0.8, x: -30, opacity: 0, stagger: 0.15, ease: 'power3.out', delay: 1 });
-            gsap.from('.action-card', { duration: 1.2, scale: 0.9, opacity: 0, ease: 'power3.out', delay: 1.2 });
-            gsap.from('.start-btn', { duration: 1.2, scale: 0, ease: 'elastic.out(1, 0.4)', delay: 1.6 });
+            const animateElements = () => {
+                const timeline = gsap.timeline({
+                    defaults: { ease: 'power4.out' }
+                });
+                
+                timeline
+                    .from('.logo', { duration: 1, y: -40, opacity: 0 })
+                    .from('.user-info', { duration: 1, x: 40, opacity: 0 }, '-=0.5')
+                    .from('.featured', { duration: 0.8, y: 40, opacity: 0 }, '-=0.3')
+                    .from('.changelog-item', { duration: 0.6, x: -30, opacity: 0, stagger: 0.1 }, '-=0.2')
+                    .from('.fix-item', { duration: 0.6, x: -30, opacity: 0 }, '-=0.2')
+                    .from('.action-card', { duration: 0.8, scale: 0.9, opacity: 0 }, '-=0.4')
+                    .from('.start-btn', { duration: 0.8, scale: 0, ease: 'back.out(1.7)' }, '-=0.2');
+            };
+
+            let animationDelay;
+            const runAnimationWithDebounce = () => {
+                clearTimeout(animationDelay);
+                animationDelay = setTimeout(animateElements, 100);
+            };
+
+            runAnimationWithDebounce();
 
             const startButtons = [document.getElementById('startBtn'), document.getElementById('actionStartBtn')];
+            let browserWindowReference = null;
+            
             startButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
                     if (localStorage.getItem('browserOpen') === 'true') {
-                        alert('An external browser is already open. Please close it to start a new session.');
-                        return;
-                    }
-                    const browserWindow = window.open('/browser.html', '_blank', 'width=800,height=600');
-                    if (browserWindow) {
-                        localStorage.setItem('browserOpen', 'true');
-                        browserWindow.addEventListener('unload', () => {
+                        if (browserWindowReference && !browserWindowReference.closed) {
+                            browserWindowReference.focus();
+                        } else {
                             localStorage.setItem('browserOpen', 'false');
-                        });
+                            openNewBrowser();
+                        }
+                    } else {
+                        openNewBrowser();
                     }
                 });
             });
+
+            function openNewBrowser() {
+                browserWindowReference = window.open('/browser.html', '_blank', 'width=800,height=600');
+                if (browserWindowReference) {
+                    localStorage.setItem('browserOpen', 'true');
+                    
+                    const checkWindow = setInterval(() => {
+                        if (browserWindowReference.closed) {
+                            clearInterval(checkWindow);
+                            localStorage.setItem('browserOpen', 'false');
+                        }
+                    }, 1000);
+                }
+            }
 
             document.getElementById('signOutBtn').addEventListener('click', () => {
                 localStorage.removeItem('username');
@@ -663,6 +712,13 @@
                     if (bannedUsers.includes(user)) {
                         window.location.href = '/ban';
                     }
+                }
+            });
+
+            window.addEventListener('beforeunload', () => {
+                if (browserWindowReference && !browserWindowReference.closed) {
+                    browserWindowReference.close();
+                    localStorage.setItem('browserOpen', 'false');
                 }
             });
 
